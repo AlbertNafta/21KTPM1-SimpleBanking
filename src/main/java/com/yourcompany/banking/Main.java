@@ -9,7 +9,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/yourcompany/banking/Main.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/Main.fxml"));
         primaryStage.setTitle("Simple Banking App");
         primaryStage.setScene(new Scene(root, 400, 300));
         primaryStage.show();

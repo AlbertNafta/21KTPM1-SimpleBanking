@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.yourcompany.banking.MainController" spacing="10">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    <Label text="Balance:"/>
+    <TextField fx:id="balanceField" editable="false"/>
+
+    <Label text="Deposit Amount:"/>
+    <TextField fx:id="depositField"/>
+    <Button text="Deposit" onAction="#depositButtonClicked"/>
+
+    <Label text="Withdraw Amount:"/>
+    <TextField fx:id="withdrawField"/>
+    <Button text="Withdraw" onAction="#withdrawButtonClicked"/>
+
+    <!-- Label to display error messages -->
+    <Label fx:id="errorLabel" textFill="red"/>
+</VBox>
+    
