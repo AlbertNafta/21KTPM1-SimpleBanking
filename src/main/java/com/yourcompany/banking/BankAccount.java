@@ -11,16 +11,25 @@ public class BankAccount {
     }
 
     public void deposit(double amount) {
-        balance += amount;
+        if (amount > 0) {
+            balance += amount;
+        } else {
+            throw new IllegalArgumentException("Deposit amount must be positive.");
+        }
     }
 
     public void withdraw(double amount) {
-        if (amount <= balance) {
-            balance -= amount;
+        if (amount > 0) {
+            if (amount <= balance) {
+                balance -= amount;
+            } else {
+                throw new IllegalStateException("Insufficient funds");
+            }
         } else {
-            System.out.println("Insufficient funds");
+            throw new IllegalStateException("Withdrawal amount must be positive.");
         }
     }
+
 
     public double getBalance() {
         return balance;

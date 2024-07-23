@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-
 public class MainController {
 
     @FXML
@@ -28,29 +27,38 @@ public class MainController {
     }
 
     @FXML
-    private void depositButtonClicked() {
-        String input = depositField.getText();
-        double amount = validateInput(input);
-        if (amount >= 0) {
+    public void depositButtonClicked() {
+        try {
+            double amount = Double.parseDouble(depositField.getText());
             account.deposit(amount);
             updateBalanceField();
-            errorLabel.setText(""); // Clear error message
+            errorLabel.setText(""); // Clear previous errors
+        } catch (NumberFormatException e) {
+            errorLabel.setText("Invalid input. Please enter a number.");
+        } catch (IllegalArgumentException e) {
+            errorLabel.setText(e.getMessage());
         }
     }
 
     @FXML
-    private void withdrawButtonClicked() {
-        String input = withdrawField.getText();
-        double amount = validateInput(input);
-        if (amount >= 0) {
-            if (account.getBalance() >= amount) {
+    public void withdrawButtonClicked() {
+        String amountText = withdrawField.getText();
+        try {
+            double amount = Double.parseDouble(amountText);
+            if (amount <= 0) {
+                throw new IllegalArgumentException("Withdrawal amount must be positive.");
+            } else {
                 account.withdraw(amount);
                 updateBalanceField();
-                errorLabel.setText(""); // Clear error message
-            } else {
-                errorLabel.setText("Insufficient funds.");
+                errorLabel.setText("");
             }
+
+        } catch (NumberFormatException e) {
+            errorLabel.setText("Invalid amount.");
+        } catch (IllegalArgumentException e) {
+            errorLabel.setText(e.getMessage());
         }
+        System.out.println("Error label updated to: " + errorLabel.getText()); // Debugging output
     }
 
     private void updateBalanceField() {
@@ -61,13 +69,34 @@ public class MainController {
         try {
             double amount = Double.parseDouble(input);
             if (amount < 0) {
-                errorLabel.setText("Amount cannot be negative.");
-                return -1;
+                throw new IllegalArgumentException("Withdrawal amount must be positive.");
             }
             return amount;
         } catch (NumberFormatException e) {
-            errorLabel.setText("Invalid input. Please enter a number.");
-            return -1;
+            throw new IllegalArgumentException("Invalid input. Please enter a number.");
         }
+    }
+
+
+    // Getter methods
+    public TextField getDepositField() {
+        return depositField;
+    }
+
+    public TextField getWithdrawField() {
+        return withdrawField;
+    }
+
+    public Label getErrorLabel() {
+        return errorLabel;
+    }
+    public TextField getBalanceField() {
+        return balanceField;
+    }
+
+    // Setter method for account
+    public void setAccount(BankAccount account) {
+        this.account = account;
+        updateBalanceField();
     }
 }
